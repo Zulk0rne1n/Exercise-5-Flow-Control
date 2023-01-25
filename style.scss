@@ -1,0 +1,89 @@
+@use "variables.scss" as var;
+@use "convert.scss" as conv;
+@use "sass:color";
+
+
+@mixin article-style($color, $border-color, $font-size) {
+  font-size: conv.convertToRem($font-size);
+  color: $color;
+  margin: 0;
+  border: conv.convertToRem(2) solid;
+  border-color: $border-color;
+}
+
+$sizes: (
+  size1: 1rem,
+  size2: 2rem,
+  size3: 3rem,
+);
+@each $size, $value in $sizes {
+  .fs-#{$value} {
+    font-size: $value;
+  }
+}
+$bg: white;
+@for $var from 1 through 19 {
+  .numbers div:nth-child(#{$var}) {
+    background: darken(white, $var * 5%);
+    color: lighten(black, $var * 5%);
+    @if $var == 10 {
+      background: blue;
+      color: red;
+    }
+  }
+}
+
+.numbers {
+  display: flex;
+  justify-content: space-between;
+  & div {
+    display: flex;
+    width: conv.convertToRem(45);
+    height: conv.convertToRem(45);
+    border: conv.convertToRem(2) solid var.$primary;
+    margin: conv.convertToRem(5) 0;
+  }
+}
+
+.exercise {
+  border: conv.convertToRem(2) solid var.$primary;
+  padding: conv.convertToRem(8);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  &-title {
+    color: var.$tertiary;
+    text-decoration: underline;
+    text-decoration-color: var.$secondary;
+    text-decoration-thickness: conv.convertToRem(2) ;
+
+    &_sub {
+      @extend .exercise-title;
+      padding: conv.convertToRem(16);
+      border: conv.convertToRem(2) solid var.$primary;
+      text-decoration: none;
+      align-self: center;
+    }
+  }
+
+  .first-section {
+    display: flex;
+
+    article {
+      padding: conv.convertToRem(8);
+
+      &:nth-child(odd) {
+        @include article-style(var.$secondary, var.$tertiary, 16);
+      }
+      &:nth-child(even) {
+        @include article-style(var.$primary, var.$tertiary, 16);
+      }
+    }
+  }
+
+  .footer {
+    @include article-style(var.$tertiary, var.$secondary, 24);
+    margin-top: conv.convertToRem(10);
+  }
+}
